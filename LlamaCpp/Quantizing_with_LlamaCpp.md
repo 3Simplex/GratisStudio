@@ -6,15 +6,16 @@ This guide was derived from https://github.com/ggerganov/llama.cpp?tab=readme-ov
 
 
 ### Reqirements to follow video.
-QT creator (CMake)  
-https://github.com/nomic-ai/gpt4all/blob/main/gpt4all-chat/build_and_run.md  
-Vulkan SDK (AMD GPU Support)  
-https://vulkan.lunarg.com/sdk/home  
+Git (git clone)  
+https://git-scm.com/  
 LlaMA.Cpp (Quantization)  
 https://github.com/ggerganov/llama.cpp  
 LLM files (Used in video)  
 https://huggingface.co/WhiteRabbitNeo/Trinity-13B/tree/main  
-
+Vulkan SDK (AMD GPU Support)  
+https://vulkan.lunarg.com/sdk/home  
+QT creator (CMake)  
+https://www.qt.io/download-qt-installer-oss  
 GPT4All (LLM environment)  
 - Easy Installer https://gpt4all.io/index.html  
 - Instructions for Compiled version https://github.com/nomic-ai/gpt4all/blob/main/gpt4all-chat/build_and_run.md  
