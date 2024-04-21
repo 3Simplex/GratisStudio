@@ -74,7 +74,7 @@ Convert the model to ggml FP16 format.
 ```
 python convert.py models\mymodel\ --outtype f16
 ```
-[Optional] for models Byte-Pair Encoding (BPE) tokenizers.
+[Optional] for models Byte-Pair Encoding (BPE) tokenizers. (Llama 3 uses BPE)
 ```
 python convert.py models\mymodel\ --vocab-type bpe
 ```
