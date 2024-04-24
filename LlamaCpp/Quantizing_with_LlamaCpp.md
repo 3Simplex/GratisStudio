@@ -51,15 +51,15 @@ Look for the asterisk * to denote the instruction sets your CPU has.
 ### Enter the llama.cpp folder with administrator command prompt.
 	cd .\llama.cpp
 	
-Create a virtual environment.
+Create a virtual environment. (run only the first time)
 ```
 python -m venv venv
 ```		
-Activate the Virtual environment.
+Activate the Virtual environment. (use this 'venv' from now on)
 ```
 .\venv\Scripts\activate
 ```
-Install Python dependencies within the virtual environment.
+Install Python dependencies within the virtual environment. (run only the first time)
 ```
 python -m pip install -r requirements.txt
 ```
@@ -76,11 +76,11 @@ python convert.py models\mymodel\ --outtype f16
 ```
 [Optional] for models Byte-Pair Encoding (BPE) tokenizers. (Llama 3 uses BPE)
 ```
-python convert.py models\mymodel\ --vocab-type bpe
+python convert.py models\mymodel\ --outtype f16 --vocab-type bpe
 ```
 ## Do the quantization in the build-llama.cpp directory.
 This is not done in python VENV.
-- Open a new commandline in the bin folder of the build directory.  
+- Open a new commandline in the bin folder of the build directory. (takes longer to 'deactivate' and cd to the bin)  
 - Put the model to be quantized into the folder containing quantize.exe  
 	
 Verify you are in the correct folder and understand various options.  
@@ -91,7 +91,7 @@ Quantize the model to 4-bits. (using Q4_0 method)
 ```
 .\quantize.exe ggml-model-f16.gguf ggml-model-Q4_0.gguf Q4_0
 ```	
-[Optional] to update the gguf to current version if older version is now unsupported.  
+[Optional] to update the gguf to current version if older version is unsupported.  
 ```
 .\quantize.exe ggml-model-Q4_0.gguf ggml-model-Q4_0-v2.gguf COPY
 ```
