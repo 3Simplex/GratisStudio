@@ -78,7 +78,7 @@ cd ~
 ```
 Clone the repo.  
 ```
-git clone https://github.com/ggerganov/llama.cpp
+git clone --recurse-submodules https://github.com/ggerganov/llama.cpp
 ```
 [Optional] How to update the repo to get changes made after cloning. (always build after updating)
 ```
