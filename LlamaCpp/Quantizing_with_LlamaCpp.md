@@ -188,7 +188,7 @@ python convert.py models\model_dir\ --outtype f16 --vocab-type bpe
 [Optional] Some models require the convert-hf-to-gguf.py script instead of the convert.py script. I am not sure about the actual requirements, but I believe it is for safetensor files.
 
 ```
-python convert-hf-to-gguf.py models\mymodel\ outtype f16
+python convert-hf-to-gguf.py models\mymodel\ --outtype f16
 ```
 
 ## Do the quantization in the llama.cpp\build\bin directory.
