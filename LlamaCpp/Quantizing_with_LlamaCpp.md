@@ -134,7 +134,7 @@ Expand-Archive -Path 'Coreinfo.zip' -DestinationPath . -Force
 ### Git Clone into the models folder. (or move them there)
 	cd ~\llama.cpp\models
 	git clone [URL]  
-[Optional] How to get changes made after cloning. (get changes only)
+[Optional] How to update model if you used git clone. (To get changes only)
 List the model directory you previously cloned.
 ```
 ls ~\llama.cpp\models
@@ -166,42 +166,45 @@ Install Python dependencies within the virtual environment. (run only the first 
 python -m pip install -r requirements.txt
 pyenv rehash
 ```
-## Do the initial conversion to gguf.
+## Conversion to gguf.
 While in python VENV enter \Llama.cpp directory.  
 ```
 cd ~\llama.cpp
 ```
-Verify you are in the correct folder, the convert script is there and understand the various options:
+Verify you are in the correct folder and the convert scripts are there. (List all convert scripts)
 ```
-python convert.py --help
+Get-ChildItem -Path "." -Filter convert*.py | Select-Object -ExpandProperty Name
 ```
-Convert the model to ggml FP16 format. (change `model_dir` to the model directory you cloned)
-```
-ls ~\llama.cpp\models
-python convert.py models\model_dir\ --outtype f16
-```
-[Optional] for models Byte-Pair Encoding (BPE) tokenizers. (Llama 3 uses BPE)
-```
-python convert.py models\model_dir\ --outtype f16 --vocab-type bpe
-```
+From the list of convert scripts above...  
+- [Recomended] convert-hf-to-gguf.py handles most models. (Huggingface)
+- convert.py is intended for llama models only.
+- convert-llama-ggml-to-gguf.py converts old .ggml llama models.
 
-[Optional] Some models require the convert-hf-to-gguf.py script instead of the convert.py script. I am not sure about the actual requirements, but I believe it is for safetensor files.
-
+Show the model directories you have now. You will replace `model_dir` with a name in this list. (Models recieved via git clone or download)  
 ```
-python convert-hf-to-gguf.py models\mymodel\ --outtype f16
+Get-ChildItem -Path ".\models" | Where-Object { $_.Attributes -eq "Directory" }
+``` 
+Convert the model to FP16 which preserves the model while reducing size. (using the recomended script)  
 ```
+python convert-hf-to-gguf.py models\model_dir\ --outtype f16
+```
+- For llama models ```python convert.py models\model_dir\ --outtype f16```
+- For llama models using Byte-Pair Encoding (BPE) tokenizers. ```python convert.py models\model_dir\ --outtype f16 --vocab-type bpe```
+- For ggml llama models ```python convert-llama-ggml-to-gguf.py models\model_dir\ --outtype f16```
 
-## Do the quantization in the llama.cpp\build\bin directory.
+## Do the quantization in the llama.cpp\build\bin\Release directory.
 Quantization is not done in python VENV. ('deactivate' the venv)  
-List the models in the model directory (copy the name for the model_dir)  
+List the models in the model directory (copy the name for the `model_dir`)  
 ```
 deactivate
-ls ~\llama.cpp\models
+Get-ChildItem -Path ".\models" | Where-Object { $_.Attributes -eq "Directory" }
 ```
-Put the model to be quantized into the folder containing quantize.exe (change model_dir as needed, move the new guff)  
-Change to the bin directory (cd to the bin)  
+Put the model to be quantized into the folder containing quantize.exe (change `model_dir` name as needed, move the new guff)  
 ```
-mv ~\llama.cpp\models\model_dir\ggml-model-f16.gguf ~\llama.cpp\build\bin\ggml-model-f16.gguf
+mv ~\llama.cpp\models\model_dir\ggml-model-f16.gguf ~\llama.cpp\build\bin\Release\ggml-model-f16.gguf
+```
+Change to the bin directory where quantize.exe is at. (cd to the \build\bin\Release)  
+```
 cd ~\llama.cpp\build\bin\Release
 ```
 Verify you are in the correct folder and understand various options.  
@@ -216,7 +219,7 @@ Quantize the model to Q4_0. (GPU support in GPT4All uses Q4_0 or Q4_1)
 ```
 .\quantize.exe ggml-model-Q4_0.gguf ggml-model-Q4_0-v2.gguf COPY
 ```
-Rename ggml-model-Q4_0.gguf (Copy model_dir name)  
+Rename ggml-model-Q4_0.gguf (Copy `model_dir` name)  
 ```
 ls ~\llama.cpp\models  
 ren ggml-model-Q4_0.gguf  PASTE_NEW_NAME-Q4_0.gguf
