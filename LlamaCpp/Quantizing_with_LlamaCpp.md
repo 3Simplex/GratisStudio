@@ -1,6 +1,6 @@
 ThiloteE — 4/2/2024 (Original notes, guided me through his process.)  
 3Simplex - 4/4/2024 (Step by step walkthrough with all requirements, syntax for powershell method with detailed explainations.)  
-# Guide for Quantizing with llama.cpp
+# Guide for Quantizing with llama.cpp (updated 5/31/2024)
 
 The following guide was written for Windows users, which was derived from [https://github.com/ggerganov/llama.cpp](https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#description)  
 There you will find detailed information for users of all supported Operating systems.  
@@ -177,7 +177,7 @@ Get-ChildItem -Path "." -Filter convert*.py | Select-Object -ExpandProperty Name
 ```
 From the list of convert scripts above...  
 - [Recomended] convert-hf-to-gguf.py handles most models. (Huggingface)
-- convert.py is intended for llama models only.
+- convert-legacy-llama.py is intended for llama 1-2 and mistral only.
 - convert-llama-ggml-to-gguf.py converts old .ggml llama models.
 
 Show the model directories you have now. You will replace `model_dir` with a name in this list. (Models recieved via git clone or download)  
@@ -188,8 +188,8 @@ Convert the model to FP16 which preserves the model while reducing size. (using 
 ```
 python convert-hf-to-gguf.py models\model_dir\ --outtype f16
 ```
-- For llama models ```python convert.py models\model_dir\ --outtype f16```
-- For llama models using Byte-Pair Encoding (BPE) tokenizers. ```python convert.py models\model_dir\ --outtype f16 --vocab-type bpe```
+- For models using Byte-Pair Encoding (BPE) tokenizers add the folowing tag. ```--vocab-type bpe```
+- For llama 1-2 and mistral only ```python examples\convert-legacy-llama.py models\model_dir\ --outtype f16```
 - For ggml llama models ```python convert-llama-ggml-to-gguf.py models\model_dir\ --outtype f16```
 
 ## Do the quantization in the llama.cpp\build\bin\Release directory.
