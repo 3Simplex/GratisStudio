@@ -1,6 +1,6 @@
 ThiloteE — 4/2/2024 (Original notes, guided me through his process.)  
 3Simplex - 4/4/2024 (Step by step walkthrough with all requirements, syntax for powershell method with detailed explainations.)  
-# Guide for Quantizing with llama.cpp (updated 5/31/2024)
+# Guide for Quantizing with llama.cpp (updated 6/14/2024)
 
 The following guide was written for Windows users, which was derived from [https://github.com/ggerganov/llama.cpp](https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#description)  
 There you will find detailed information for users of all supported Operating systems.  
@@ -108,7 +108,7 @@ Expand-Archive -Path 'Coreinfo.zip' -DestinationPath . -Force
 	mkdir build
 	cd .\build
 	cmake .. -DLLAMA_VULKAN=ON -DLLAMA_NATIVE=ON
-	cmake --build . --config Release
+	cmake --build . --config Release -j 8
 	```
 	or  
 	
@@ -118,7 +118,7 @@ Expand-Archive -Path 'Coreinfo.zip' -DestinationPath . -Force
 	mkdir build
 	cd .\build
 	cmake .. -DLLAMA_CUDA=ON -DLLAMA_NATIVE=ON
-	cmake --build . --config Release
+	cmake --build . --config Release -j 8
 	```  
 	or  
 	
@@ -128,7 +128,7 @@ Expand-Archive -Path 'Coreinfo.zip' -DestinationPath . -Force
 	mkdir build
 	cd .\build
 	cmake .. -DLLAMA_NATIVE=ON
-	cmake --build . --config Release
+	cmake --build . --config Release -j 8
 	```  
 ## Place the model and configuration files into the correct folder.
 ### Git Clone into the models folder. (or move them there)
@@ -171,11 +171,7 @@ While in python VENV enter \Llama.cpp directory.
 ```
 cd ~\llama.cpp
 ```
-Verify you are in the correct folder and the convert scripts are there. (List all convert scripts)
-```
-Get-ChildItem -Path "." -Filter convert*.py | Select-Object -ExpandProperty Name
-```
-From the list of convert scripts above...  
+Available convert scripts...  
 - [Recomended] convert-hf-to-gguf.py handles most models. (Huggingface)
 - convert-legacy-llama.py is intended for llama 1-2 and mistral only.
 - convert-llama-ggml-to-gguf.py converts old .ggml llama models.
@@ -188,8 +184,8 @@ Convert the model to FP16 which preserves the model while reducing size. (using 
 ```
 python convert-hf-to-gguf.py models\model_dir\ --outtype f16
 ```
-- For models using Byte-Pair Encoding (BPE) tokenizers add the folowing tag. ```--vocab-type bpe```
 - For llama 1-2 and mistral only ```python examples\convert-legacy-llama.py models\model_dir\ --outtype f16```
+- For models using Byte-Pair Encoding (BPE) tokenizers add the folowing tag. ```--vocab-type bpe```
 - For ggml llama models ```python convert-llama-ggml-to-gguf.py models\model_dir\ --outtype f16```
 
 ## Do the quantization in the llama.cpp\build\bin\Release directory.
@@ -203,21 +199,21 @@ Put the model to be quantized into the folder containing quantize.exe (change `m
 ```
 mv ~\llama.cpp\models\model_dir\ggml-model-f16.gguf ~\llama.cpp\build\bin\Release\ggml-model-f16.gguf
 ```
-Change to the bin directory where quantize.exe is at. (cd to the \build\bin\Release)  
+Change to the bin directory where llama-quantize.exe is at. (cd to the \build\bin\Release)  
 ```
 cd ~\llama.cpp\build\bin\Release
 ```
 Verify you are in the correct folder and understand various options.  
 ```
-.\quantize.exe --help
+.\llama-quantize.exe --help
 ```	
-Quantize the model to Q4_0. (GPU support in GPT4All uses Q4_0 or Q4_1)  
+Quantize the model to Q4_0. (Vulkan GPU support in GPT4All uses Q4_0 or Q4_1, CUDA works with any quantization.)  
 ```
-.\quantize.exe ggml-model-f16.gguf ggml-model-Q4_0.gguf Q4_0
+.\llama-quantize.exe ggml-model-f16.gguf ggml-model-Q4_0.gguf Q4_0
 ```	
 [Optional] to update the gguf to current version if older version is unsupported.  
 ```
-.\quantize.exe ggml-model-Q4_0.gguf ggml-model-Q4_0-v2.gguf COPY
+.\llama-quantize.exe ggml-model-Q4_0.gguf ggml-model-Q4_0-v2.gguf COPY
 ```
 Rename ggml-model-Q4_0.gguf (Copy `model_dir` name)  
 ```
