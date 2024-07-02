@@ -1,6 +1,6 @@
 ThiloteE — 4/2/2024 (Original notes, guided me through his process.)  
 3Simplex - 4/4/2024 (Step by step walkthrough with all requirements, syntax for powershell method with detailed explainations.)  
-# Guide for Quantizing with llama.cpp (updated 6/14/2024)
+# Guide for Quantizing with llama.cpp (updated 7/2/2024)
 
 The following guide was written for Windows users, which was derived from [https://github.com/ggerganov/llama.cpp](https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#description)  
 There you will find detailed information for users of all supported Operating systems.  
@@ -100,14 +100,14 @@ Expand-Archive -Path 'Coreinfo.zip' -DestinationPath . -Force
 ## Build Llama.cpp:  (build each time you update the repo)
 - Build llama.cpp  
 	Auto select applicable CPU instruction sets (AVX, AVX2)  
-	This flag will only use your native instructions "-DLLAMA_NATIVE=ON" (not recomended if you intend to use the output on another computer)  
+	This flag will only use your native instructions "-DGGML_NATIVE=ON" (not recomended if you intend to use the output on another computer)  
 
 	Use Vulkan for AMD GPU
 	```
 	cd ~\llama.cpp
 	mkdir build
 	cd .\build
-	cmake .. -DLLAMA_VULKAN=ON -DLLAMA_NATIVE=ON
+	cmake .. -DGGML_VULKAN=ON -DGGML_NATIVE=ON
 	cmake --build . --config Release -j 8
 	```
 	or  
@@ -117,7 +117,7 @@ Expand-Archive -Path 'Coreinfo.zip' -DestinationPath . -Force
 	cd ~\llama.cpp
 	mkdir build
 	cd .\build
-	cmake .. -DLLAMA_CUDA=ON -DLLAMA_NATIVE=ON
+	cmake .. -DGGML_CUDA=ON -DGGML_NATIVE=ON
 	cmake --build . --config Release -j 8
 	```  
 	or  
@@ -127,7 +127,7 @@ Expand-Archive -Path 'Coreinfo.zip' -DestinationPath . -Force
 	cd ~\llama.cpp
 	mkdir build
 	cd .\build
-	cmake .. -DLLAMA_NATIVE=ON
+	cmake .. -DGGML_NATIVE=ON
 	cmake --build . --config Release -j 8
 	```  
 ## Place the model and configuration files into the correct folder.
