@@ -172,21 +172,21 @@ While in python VENV enter \Llama.cpp directory.
 cd ~\llama.cpp
 ```
 Available convert scripts...  
-- [Recomended] convert-hf-to-gguf.py handles most models. (Huggingface)
-- convert-legacy-llama.py is intended for llama 1-2 and mistral only.
-- convert-llama-ggml-to-gguf.py converts old .ggml llama models.
+- [Recomended] convert_hf_to_gguf.py handles most models. (Huggingface)
+- convert_legacy_llama.py is intended for llama 1-2 and mistral only.
+- convert_llama_ggml_to_gguf.py converts old .ggml llama models.
 
 Show the model directories you have now. You will replace `model_dir` with a name in this list. (Models recieved via git clone or download)  
 ```
 Get-ChildItem -Path ".\models" | Where-Object { $_.Attributes -eq "Directory" }
 ``` 
-Convert the model to FP16 which preserves the model while reducing size. (using the recomended script)  
+Convert the model will default to FP16 which preserves the model while reducing size. (using the recomended script)  
 ```
-python convert-hf-to-gguf.py models\model_dir\ --outtype f16
+python convert_hf_to_gguf.py models\model_dir\
 ```
-- For llama 1-2 and mistral only ```python examples\convert-legacy-llama.py models\model_dir\ --outtype f16```
+- For llama 1-2 and mistral only ```python examples\convert_legacy_llama.py models\model_dir\```
 - For models using Byte-Pair Encoding (BPE) tokenizers add the folowing tag. ```--vocab-type bpe```
-- For ggml llama models ```python convert-llama-ggml-to-gguf.py models\model_dir\ --outtype f16```
+- For ggml llama models ```python convert_llama_ggml_to_gguf.py models\model_dir\```
 
 ## Do the quantization in the llama.cpp\build\bin\Release directory.
 Quantization is not done in python VENV. ('deactivate' the venv)  
