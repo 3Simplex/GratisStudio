@@ -1,6 +1,6 @@
 ThiloteE — 4/2/2024 (Original notes, guided me through his process.)  
 3Simplex - 4/4/2024 (Step by step walkthrough with all requirements, syntax for powershell method with detailed explainations.)  
-# Guide for Quantizing with llama.cpp (updated 7/2/2024)
+# Guide for Quantizing with llama.cpp (updated 7/11/2024)
 
 The following guide was written for Windows users, which was derived from [https://github.com/ggerganov/llama.cpp](https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#description)  
 There you will find detailed information for users of all supported Operating systems.  
