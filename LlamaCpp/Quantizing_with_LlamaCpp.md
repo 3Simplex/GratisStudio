@@ -1,6 +1,6 @@
 ThiloteE — 4/2/2024 (Original notes, guided me through his process.)  
 3Simplex - 4/4/2024 (Step by step walkthrough with all requirements, syntax for powershell method with detailed explainations.)  
-# Guide for Quantizing with llama.cpp (updated 7/11/2024)
+# Guide for Quantizing with llama.cpp (updated 8/8/2024)
 
 The following guide was written for Windows users, which was derived from [https://github.com/ggerganov/llama.cpp](https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#description)  
 There you will find detailed information for users of all supported Operating systems.  
@@ -101,6 +101,8 @@ Expand-Archive -Path 'Coreinfo.zip' -DestinationPath . -Force
 - Build llama.cpp  
 	Auto select applicable CPU instruction sets (AVX, AVX2)  
 	This flag will only use your native instructions "-DGGML_NATIVE=ON" (not recomended if you intend to use the output on another computer)  
+	This flag will set the number of build jobs to use, ``-j #`` set this to the number of cores your CPU has.  
+	- ``[Environment]::ProcessorCount / 2`` (powershell command to find number of cores)  
 
 	Use Vulkan for AMD GPU
 	```
